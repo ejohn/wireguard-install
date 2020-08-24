@@ -68,7 +68,7 @@ function installQuestions() {
 	SERVER_WG_NIC="wg0"
 	SERVER_WG_IPV4="10.254.1.1"
 	SERVER_WG_IPV6="fd42:42:42::1"
-	RANDOM_PORT=$(shuf -i49152-65535 -n1)
+	SERVER_PORT=$(shuf -i49152-65535 -n1)
 	CLIENT_DNS_1=1.1.1.1
 	CLIENT_DNS_2=8.8.8.8
 }
