@@ -108,13 +108,9 @@ function new_client() {
 		exit 1
 	fi
 
-	until [[ ${IPV4_EXISTS} == '0' ]]; do
-		CLIENT_WG_IPV4="${SERVER_WG_IPV4::-1}${DOT_IP}"
-	done
+	CLIENT_WG_IPV4="${SERVER_WG_IPV4::-1}${DOT_IP}"
+	CLIENT_WG_IPV6="${SERVER_WG_IPV6::-1}${DOT_IP}"
 
-	until [[ ${IPV6_EXISTS} == '0' ]]; do
-		CLIENT_WG_IPV6="${SERVER_WG_IPV6::-1}${DOT_IP}"
-	done
 
 	# Generate key pair for the client
 	CLIENT_PRIV_KEY=$(wg genkey)
@@ -132,6 +128,9 @@ PublicKey = ${SERVER_PUB_KEY}
 PresharedKey = ${CLIENT_PRE_SHARED_KEY}
 Endpoint = ${ENDPOINT}
 AllowedIPs = 0.0.0.0/0,::/0" >>"${HOME_DIR}/${SERVER_WG_NIC}-client-${CLIENT_NAME}.conf"
+
+	echo "Client Configuration"
+	cat ${HOME_DIR}/${SERVER_WG_NIC}-client-${CLIENT_NAME}.conf
 
 	# Add the client as a peer to the server
 	echo -e "\n### Client ${CLIENT_NAME}
