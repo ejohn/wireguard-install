@@ -160,8 +160,6 @@ function revoke_client() {
 }
 
 function uninstall_wireguard() {
-	checkOS
-
 	systemctl stop "wg-quick@${SERVER_WG_NIC}"
 	systemctl disable "wg-quick@${SERVER_WG_NIC}"
 
@@ -200,18 +198,23 @@ if [[ -e /etc/wireguard/params ]]; then
 	source /etc/wireguard/params
 fi
 
-if [ $1 == "install" ]; then
+if [ "$1" == "install" ]; then
 	install_wireguard
 	exit 0
 fi
 
-if [ $1 == "uninstall" ]; then
+if [ "$1" == "uninstall" ]; then
 	uninstall_wireguard
 	exit 0
 fi
 
-if [ $1 == "revoke" ]; then
-	if [ $2 == "" ]; then
+if [ "$1" == "add" ]; then
+	new_client
+	exit 0
+fi
+
+if [ "$1" == "revoke" ]; then
+	if [ "$2" == "" ]; then
 		echo "provide client id to revoke"
 		exit 1
 	fi
